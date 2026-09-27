@@ -24,14 +24,22 @@ void interface() {
     items = malloc(LSize * sizeof(struct Item));
 
     for (int i = 0; i < LSize; i++) {
-        printf("Enter chance(%) %d: ", i+1);
-        scanf("%f", &items[i].chance);
+
+        do {
+            printf("Enter chance(%) %d: ", i+1);
+            scanf("%f", &items[i].chance);
+
+            if (totalChance + items[i].chance > 100.0) {
+                printf("Total chance is higher than 100%, try again.\n");
+            }
+        } while (totalChance + items[i].chance > 100.0);
+
         totalChance += items[i].chance;
 
         printf("Enter item's name %d: ", i+1);
         scanf("%49s", items[i].name);
 
-        items[i].max += items[i].chance;
+        items[i].max = items[i].chance;
         items[i].min = 0.0;
 
         if (i > 0) {
@@ -79,7 +87,7 @@ void interface() {
     for (int i = 0; i < LSize; i++) {
         printf("%s | chance: %f | rolls: %d\n", items[i].name, items[i].chance, items[i].count);
     }
-    printf("\n");
+    printf("\n\n");
 
 }
 
